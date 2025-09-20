@@ -9,7 +9,18 @@ Android 相机预览 —— Camera2、V4L2Camera
 
 ![](./imgs/Xnip2025-09-20_01-11-35.png)
 
-- [V4L2 相机](./libcamera-v4l2): 使用 V4L2 Camera 通过 /dev/video 节点打开 USB 相机，需要赋予节点 `666` 读写权限
+- [V4L2 相机](./libcamera-v4l2): 使用 V4L2 Camera 通过 /dev/video 节点打开 USB 相机
+
+&emsp;&emsp;通过读取 modalias 配置查找 video 节点，需要关闭 selinux，获取 video 节点分辨率信息以及预览，需要赋予 video 节点 666 读写权限
+
+~~~shell
+adb shell
+su
+# getenforce  查看当前 selinux 状态，Enforcing 为开启，Permissive 为关闭
+setenforce 0  # 关闭 selinux
+# 修改 /dev/video 节点权限
+chmod 666 /dev/video*
+~~~
 
 ![](./imgs/Xnip2025-09-20_01-11-26.png)
 
